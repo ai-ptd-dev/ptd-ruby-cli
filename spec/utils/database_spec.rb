@@ -56,11 +56,11 @@ RSpec.describe TodoCli::Utils::Database do
 
     it 'includes completed todos when requested' do
       # Complete one todo
-      first_todo = database.list_todos(false).first
+      first_todo = database.list_todos(show_completed: false).first
       database.complete_todo(first_todo['id'])
 
       all_todos = database.list_todos(show_completed: true)
-      pending_todos = database.list_todos(false)
+      pending_todos = database.list_todos(show_completed: false)
 
       expect(all_todos.length).to eq(3)
       expect(pending_todos.length).to eq(2)
