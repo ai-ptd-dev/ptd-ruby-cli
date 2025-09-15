@@ -1,6 +1,6 @@
 require 'time'
 
-module BasicCli
+module TodoCli
   module Utils
     class Logger
       LEVELS = {

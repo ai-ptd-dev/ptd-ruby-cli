@@ -1,4 +1,4 @@
-# Getting Started with BasicCli
+# Getting Started with TodoCli
 
 ## Prerequisites
 
@@ -131,7 +131,7 @@ bundle exec ruby src/cli.rb hello "World"
 ### 1. Write Ruby Code
 Create your command in `src/commands/`:
 ```ruby
-module BasicCli
+module TodoCli
   module Commands
     class MyCommand
       def initialize(options = {})
@@ -159,7 +159,7 @@ end
 ### 3. Write Tests
 Create `spec/commands/mycommand_spec.rb`:
 ```ruby
-RSpec.describe BasicCli::Commands::MyCommand do
+RSpec.describe TodoCli::Commands::MyCommand do
   it 'executes successfully' do
     command = described_class.new
     expect { command.execute }.to output(/Hello/).to_stdout

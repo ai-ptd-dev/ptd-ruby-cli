@@ -27,19 +27,19 @@ impl VersionCommand {
 
     fn build_version_info(&self) -> serde_json::Value {
         json!({
-            "name": "BasicCli",
+            "name": "TodoCli",
             "version": Self::VERSION,
             "build_date": Self::BUILD_DATE,
             "ruby_version": format!("Rust {}", env!("CARGO_PKG_RUST_VERSION")),
             "platform": std::env::consts::OS,
-            "description": "Polyglot Transpilation Development Reference Implementation",
+            "description": "A powerful todo list manager with SQLite storage",
             "repository": "https://github.com/ai-ptd-dev/ptd-ruby-cli"
         })
     }
 
     fn display_formatted(&self, info: &serde_json::Value) {
         println!("╔═══════════════════════════════════════════════════════════╗");
-        println!("║                    BasicCli (Rust)                        ║");
+        println!("║                    TodoCli (Rust)                         ║");
         println!("╠═══════════════════════════════════════════════════════════╣");
         println!(
             "║ Version:      {:44} ║",

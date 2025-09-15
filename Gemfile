@@ -24,3 +24,6 @@ end
 
 # Optional: for colored output in development
 gem 'rainbow', '~> 3.1'
+
+# Database
+gem 'sqlite3', '~> 1.6'

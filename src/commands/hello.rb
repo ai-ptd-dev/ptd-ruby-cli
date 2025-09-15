@@ -1,4 +1,4 @@
-module BasicCli
+module TodoCli
   module Commands
     class Hello
       def initialize(name, options = {})
@@ -27,7 +27,7 @@ module BasicCli
 
       def build_greeting
         time_of_day_greeting = time_of_day
-        "#{time_of_day_greeting}, #{@name}! Welcome to BasicCli"
+        "#{time_of_day_greeting}, #{@name}! Welcome to TodoCli"
       end
 
       def time_of_day

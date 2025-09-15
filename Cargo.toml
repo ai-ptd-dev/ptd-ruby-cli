@@ -1,13 +1,13 @@
 [package]
-name = "basiccli"
+name = "todocli"
 version = "1.0.0"
 edition = "2021"
-authors = ["BasicCli Contributors"]
-description = "BasicCli - High Performance CLI Framework"
-repository = "https://github.com/ai-ptd-dev/basiccli"
+authors = ["TodoCli Contributors"]
+description = "TodoCli - High Performance Todo Manager"
+repository = "https://github.com/yourusername/todocli"
 
 [[bin]]
-name = "basiccli-rust"
+name = "todocli-rust"
 path = "src/cli.rs"
 
 [dependencies]
@@ -26,6 +26,7 @@ md5 = "0.7"
 sha1 = "0.10"
 indicatif = "0.17"
 atty = "0.2"
+rusqlite = { version = "0.29", features = ["bundled"] }
 
 [dev-dependencies]
 assert_cmd = "2.0"

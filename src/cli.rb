@@ -2,22 +2,43 @@
 
 require 'thor'
 require 'json'
-require_relative 'commands/hello'
+require_relative 'commands/add'
+require_relative 'commands/list'
+require_relative 'commands/complete'
+require_relative 'commands/delete'
 require_relative 'commands/version'
-require_relative 'commands/benchmark'
 require_relative 'utils/logger'
 
-module BasicCli
+module TodoCli
   class CLI < Thor
     def self.exit_on_failure?
       true
     end
 
-    desc 'hello NAME', 'Greet someone with a personalized message'
-    option :uppercase, type: :boolean, aliases: '-u', desc: 'Print greeting in uppercase'
-    option :repeat, type: :numeric, default: 1, aliases: '-r', desc: 'Repeat the greeting N times'
-    def hello(name)
-      command = Commands::Hello.new(name, options)
+    desc 'add TEXT', 'Add a new todo item'
+    option :priority, type: :string, default: 'medium', desc: 'Priority: high, medium, or low'
+    def add(text)
+      command = Commands::Add.new(text, options)
+      command.execute
+    end
+
+    desc 'list', 'List all todos'
+    option :all, type: :boolean, aliases: '-a', desc: 'Show completed todos too'
+    option :format, type: :string, default: 'table', desc: 'Output format: table or json'
+    def list
+      command = Commands::List.new(options)
+      command.execute
+    end
+
+    desc 'complete ID', 'Mark a todo as completed'
+    def complete(id)
+      command = Commands::Complete.new(id, options)
+      command.execute
+    end
+
+    desc 'delete ID', 'Delete a todo'
+    def delete(id)
+      command = Commands::Delete.new(id, options)
       command.execute
     end
 
@@ -27,53 +48,7 @@ module BasicCli
       command = Commands::Version.new(options)
       command.execute
     end
-
-    desc 'benchmark [ITERATIONS]', 'Run performance benchmarks'
-    option :output, type: :string, default: 'console', desc: 'Output format: console, json, or csv'
-    option :verbose, type: :boolean, aliases: '-v', desc: 'Show detailed benchmark information'
-    def benchmark(iterations = 1000)
-      command = Commands::Benchmark.new(iterations.to_i, options)
-      command.execute
-    end
-
-    desc 'process FILE', 'Process a JSON file and demonstrate file I/O'
-    option :pretty, type: :boolean, aliases: '-p', desc: 'Pretty print JSON output'
-    option :stats, type: :boolean, aliases: '-s', desc: 'Show processing statistics'
-    def process(file)
-      logger = Utils::Logger.new(verbose: options[:stats])
-
-      begin
-        logger.info "Processing file: #{file}"
-
-        unless File.exist?(file)
-          logger.error "File not found: #{file}"
-          exit 1
-        end
-
-        content = File.read(file)
-        data = JSON.parse(content)
-
-        logger.info "Successfully parsed JSON with #{data.keys.length} keys"
-
-        if options[:pretty]
-          puts JSON.pretty_generate(data)
-        else
-          puts data.to_json
-        end
-
-        if options[:stats]
-          logger.info "File size: #{File.size(file)} bytes"
-          logger.info 'Processing complete'
-        end
-      rescue JSON::ParserError => e
-        logger.error "Invalid JSON: #{e.message}"
-        exit 1
-      rescue StandardError => e
-        logger.error "Error: #{e.message}"
-        exit 1
-      end
-    end
   end
 end
 
-BasicCli::CLI.start(ARGV) if __FILE__ == $PROGRAM_NAME
+TodoCli::CLI.start(ARGV) if __FILE__ == $PROGRAM_NAME

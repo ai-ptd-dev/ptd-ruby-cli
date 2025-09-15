@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# BasicCli Rust Runner
+# TodoCli Rust Runner
 # This script builds and runs the Rust version of the CLI
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -14,12 +14,12 @@ if ! command -v cargo &> /dev/null; then
 fi
 
 # Build the project if binary doesn't exist or source is newer
-if [ ! -f "$PROJECT_ROOT/target/release/basiccli-rust" ] || \
-   [ "$PROJECT_ROOT/src/cli.rs" -nt "$PROJECT_ROOT/target/release/basiccli-rust" ]; then
+if [ ! -f "$PROJECT_ROOT/target/release/todocli-rust" ] || \
+   [ "$PROJECT_ROOT/src/cli.rs" -nt "$PROJECT_ROOT/target/release/todocli-rust" ]; then
     echo "Building Rust binary..."
     cd "$PROJECT_ROOT"
     cargo build --release --quiet
 fi
 
 # Run the Rust CLI
-exec "$PROJECT_ROOT/target/release/basiccli-rust" "$@"
+exec "$PROJECT_ROOT/target/release/todocli-rust" "$@"

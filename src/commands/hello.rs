@@ -1,12 +1,14 @@
 use anyhow::Result;
 use chrono::Local;
 
+#[allow(dead_code)]
 pub struct HelloCommand {
     name: String,
     uppercase: bool,
     repeat: usize,
 }
 
+#[allow(dead_code)]
 impl HelloCommand {
     pub fn new(name: String, uppercase: bool, repeat: usize) -> Self {
         Self {
@@ -32,7 +34,7 @@ impl HelloCommand {
 
     fn build_greeting(&self) -> String {
         let time_of_day = self.get_time_of_day();
-        format!("{}, {}! Welcome to BasicCli", time_of_day, self.name)
+        format!("{}, {}! Welcome to TodoCli", time_of_day, self.name)
     }
 
     fn get_time_of_day(&self) -> &str {
@@ -98,6 +100,6 @@ mod tests {
         let command = HelloCommand::new("Test".to_string(), false, 1);
         let greeting = command.build_greeting();
         assert!(greeting.contains("Test"));
-        assert!(greeting.contains("Welcome to BasicCli"));
+        assert!(greeting.contains("Welcome to TodoCli"));
     }
 }

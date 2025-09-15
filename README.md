@@ -1,27 +1,33 @@
-# BasicCli - Polyglot CLI Framework
+# TodoCLI - Polyglot Todo Manager
 
-> **A revolutionary boilerplate**: Write in Ruby, Deploy in Rust. Get 50x faster startup, 2-3x faster execution.
+> **A powerful todo manager**: Write in Ruby, Deploy in Rust. Get 50x faster startup with SQLite storage.
 
-BasicCli demonstrates the **PTD (Polyglot Transpilation Development)** paradigm - develop in expressive Ruby, deploy optimized Rust binaries.
+TodoCLI demonstrates the **PTD (Polyglot Transpilation Development)** paradigm - develop in expressive Ruby, deploy optimized Rust binaries.
 
 ## 🚀 Quick Start
 
 ```bash
-# Clone the boilerplate
-git clone https://github.com/ai-ptd-dev/basiccli
-cd basiccli
+# Clone and setup
+git clone https://github.com/ai-ptd-dev/ptd-ruby-cli.git -b todo-list-example
+cd ptd-ruby-cli
 
 # Install Ruby dependencies
 bundle install
 
-# Run Ruby version (development)
-./bin/basiccli-ruby hello "World"
+# Add your first todo
+./bin/todocli-ruby add "Buy groceries" --priority high
+
+# List todos
+./bin/todocli-ruby list
+
+# Complete a todo
+./bin/todocli-ruby complete 1
 
 # Compile to Rust (production)
 ./bin/compile
 
 # Run Rust version (50x faster!)
-./bin/basiccli-rust hello "World"
+./bin/todocli-rust list
 ```
 
 ## 📊 Performance Gains
@@ -45,47 +51,49 @@ bundle install
 ## 📁 Project Structure
 
 ```
-basiccli/
+ptd-ruby-cli/
 ├── src/
 │   ├── cli.rb              # Ruby entry point
 │   ├── cli.rs              # Rust entry point (transpiled)
 │   ├── commands/
-│   │   ├── hello.rb        # Ruby implementation
-│   │   ├── hello.rs        # Rust implementation (side-by-side!)
-│   │   └── ...
+│   │   ├── add.rb          # Ruby todo commands
+│   │   ├── add.rs          # Rust todo commands (side-by-side!)
+│   │   ├── list.rb/list.rs # List todos
+│   │   ├── complete.rb/rs  # Complete todos
+│   │   ├── delete.rb/rs    # Delete todos
+│   │   └── version.rb/rs   # Version info
 │   └── utils/
-│       ├── logger.rb       # Ruby utility
-│       ├── logger.rs       # Rust utility
+│       ├── database.rb     # Ruby SQLite utility
+│       ├── database.rs     # Rust SQLite utility
 │       └── ...
 ├── spec/
 │   ├── commands/
-│   │   ├── hello_spec.rb   # Ruby tests
-│   │   ├── hello_test.rs   # Rust tests (side-by-side!)
+│   │   ├── add_spec.rb     # Ruby tests
+│   │   ├── list_spec.rb    # Rust tests (side-by-side!)
 │   │   └── ...
 ├── bin/
-│   ├── basiccli-ruby       # Ruby runner
-│   ├── basiccli-rust       # Rust runner
-│   ├── compile            # Build Rust binary
-│   ├── test              # Run Rust tests
-│   ├── rspec             # Run Ruby tests
-│   └── lint              # Lint both languages
-└── docs/
-    ├── base/             # Core concepts
-    ├── guides/           # How-to guides
-    └── reference/        # API reference
+│   ├── todocli-ruby       # Ruby runner
+│   ├── todocli-rust       # Rust runner
+│   ├── compile           # Build Rust binary
+│   ├── test             # Run Rust tests
+│   ├── rspec            # Run Ruby tests
+│   └── lint             # Lint both languages
+└── tmp/
+    └── todocli.db        # SQLite database
 ```
 
 ## 🛠 Features
 
 ### Commands Included
-- **hello** - Greeting with time-based messages
+- **add** - Add new todos with priority levels
+- **list** - List todos with filtering options
+- **complete** - Mark todos as completed
+- **delete** - Remove todos permanently
 - **version** - Version info (text/JSON)
-- **benchmark** - Performance testing suite
-- **process** - JSON file processing
 
 ### Utilities
+- **Database** - SQLite storage for todos with full CRUD operations
 - **Logger** - Colored output, progress bars, timing
-- **FileHandler** - JSON/YAML/CSV support, atomic writes
 
 ### Developer Tools
 - `./bin/compile` - Build optimized Rust binary
@@ -98,11 +106,15 @@ basiccli/
 ### 1. Create Ruby Command
 ```ruby
 # src/commands/mycommand.rb
-module BasicCli
+require_relative '../utils/database'
+
+module TodoCli
   module Commands
     class MyCommand
       def execute
-        puts "Hello from Ruby!"
+        db = Utils::Database.new
+        puts "Hello from Ruby with database!"
+        db.close
       end
     end
   end
@@ -112,7 +124,7 @@ end
 ### 2. Write Tests
 ```ruby
 # spec/commands/mycommand_spec.rb
-RSpec.describe BasicCli::Commands::MyCommand do
+RSpec.describe TodoCli::Commands::MyCommand do
   it 'works' do
     expect { described_class.new.execute }
       .to output(/Hello/).to_stdout
@@ -123,11 +135,15 @@ end
 ### 3. Transpile to Rust
 ```rust
 // src/commands/mycommand.rs
+use crate::utils::database::Database;
+use anyhow::Result;
+
 pub struct MyCommand;
 
 impl MyCommand {
     pub fn execute(&self) -> Result<()> {
-        println!("Hello from Rust!");
+        let _db = Database::new()?;
+        println!("Hello from Rust with database!");
         Ok(())
     }
 }
@@ -161,7 +177,7 @@ In scripts processing 1000 files:
 ## 🔧 Use This Boilerplate
 
 1. **Fork this repository**
-2. **Rename** BasicCli to your project name
+2. **Rename** TodoCli to your project name
 3. **Add commands** following the pattern
 4. **Write tests** for both Ruby and Rust
 5. **Deploy** the Rust binary
@@ -169,9 +185,9 @@ In scripts processing 1000 files:
 ### Customization Example
 
 ```bash
-# Fork and rename
-git clone https://github.com/yourusername/mycli
-cd mycli
+# Fork and customize
+git clone https://github.com/ai-ptd-dev/ptd-ruby-cli.git -b todo-list-example
+cd ptd-ruby-cli
 
 # Add your command
 vim src/commands/deploy.rb
@@ -183,7 +199,7 @@ vim src/commands/deploy.rs
 
 # Ship it!
 ./bin/compile
-cp target/release/mycli-rust /usr/local/bin/mycli
+cp target/release/todocli-rust /usr/local/bin/todocli
 ```
 
 ## 🤝 Contributing
@@ -198,7 +214,7 @@ cp target/release/mycli-rust /usr/local/bin/mycli
 
 MIT License - Use freely in your projects
 
-## 🌟 Why BasicCli?
+## 🌟 Why TodoCLI?
 
 - **Best of Both Worlds**: Ruby's expressiveness, Rust's performance
 - **Side-by-Side Code**: See Ruby and Rust implementations together
@@ -222,4 +238,4 @@ MIT License - Use freely in your projects
 
 ---
 
-**Ready to build fast CLIs?** Fork BasicCli and experience the PTD paradigm! 🚀
+**Ready to build fast CLIs?** Fork TodoCLI and experience the PTD paradigm! 🚀

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-BasicCli demonstrates the performance gains achievable through PTD (Polyglot Transpilation Development). By transpiling Ruby to Rust, we achieve:
+TodoCli demonstrates the performance gains achievable through PTD (Polyglot Transpilation Development). By transpiling Ruby to Rust, we achieve:
 
 - **51.6x faster startup**
 - **2.3x faster computation**
@@ -146,7 +146,7 @@ Despite optimizations, the fundamental differences remain:
 
 ## Conclusion
 
-The PTD approach with BasicCli demonstrates that:
+The PTD approach with TodoCli demonstrates that:
 
 1. **Startup time** improvements are dramatic (50-60x)
 2. **Computational** improvements are significant (2-3x)

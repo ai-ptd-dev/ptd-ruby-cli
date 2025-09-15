@@ -1,6 +1,6 @@
 require 'json'
 
-module BasicCli
+module TodoCli
   module Commands
     class Version
       VERSION = '1.0.0'.freeze
@@ -25,19 +25,19 @@ module BasicCli
 
       def build_version_info
         {
-          name: 'BasicCli',
+          name: 'TodoCli',
           version: VERSION,
           build_date: BUILD_DATE,
           ruby_version: RUBY_VER,
           platform: RUBY_PLATFORM,
-          description: 'Polyglot Transpilation Development Reference Implementation',
+          description: 'A powerful todo list manager with SQLite storage',
           repository: 'https://github.com/ai-ptd-dev/ptd-ruby-cli'
         }
       end
 
       def display_formatted(info)
         puts '╔═══════════════════════════════════════════════════════════╗'
-        puts '║                       BasicCli                            ║'
+        puts '║                       TodoCli                             ║'
         puts '╠═══════════════════════════════════════════════════════════╣'
         puts "║ Version:      #{info[:version].ljust(44)} ║"
         puts "║ Build Date:   #{info[:build_date].ljust(44)} ║"

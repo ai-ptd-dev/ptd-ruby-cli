@@ -95,7 +95,7 @@ PTD is perfect for:
 
 ## Real-World Results
 
-From BasicCli project:
+From TodoCli project:
 - **Startup Time**: 258ms → 5ms (51x faster)
 - **Memory Usage**: 50MB → 3MB (94% reduction)
 - **CPU Usage**: 2.3x faster operations
