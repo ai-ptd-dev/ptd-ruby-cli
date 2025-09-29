@@ -18,7 +18,7 @@ end
 # Development tools
 group :development do
   gem 'pry', '~> 0.14'
-  gem 'rubocop', '~> 1.80', '>= 1.80.2'
+  gem 'rubocop', '~> 1.81'
   gem 'rubocop-rspec', '~> 3.7'
 end
 
